@@ -23,7 +23,7 @@ messages = [
   SystemMessage(content="You are a helpful assistant.")
 ]
 
-print("Hello, I am a helpful assistant. How can I help you?")
+print("Hello, I am ChatGPT CLI!")
 
 while True:
     user_input = input("> ")
