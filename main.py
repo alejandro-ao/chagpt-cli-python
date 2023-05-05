@@ -1,11 +1,9 @@
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage
-)
 from dotenv import load_dotenv
 import os
+
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationChain
+from langchain.llms import OpenAI
 
 load_dotenv()
 
@@ -16,22 +14,14 @@ if os.getenv("OPENAI_API_KEY") is None or os.getenv("OPENAI_API_KEY") == "":
 else:
     print("OPENAI_API_KEY is set")
     
-
-chat = ChatOpenAI(temperature=0)
-    
-messages = [
-  SystemMessage(content="You are a helpful assistant.")
-]
+llm = OpenAI(temperature=0)
+conversation = ConversationChain(llm=llm, verbose=True, memory=ConversationBufferMemory())
 
 print("Hello, I am ChatGPT CLI!")
 
 while True:
     user_input = input("> ")
 
-    messages.append(HumanMessage(content=user_input))
-    
-    assistant_response = chat(messages)
+    ai_response = conversation.predict(input=user_input)
 
-    messages.append(AIMessage(content=assistant_response.content))
-
-    print("\nAssistant:\n", assistant_response.content, "\n")
+    print("\nAssistant:\n", ai_response, "\n")
