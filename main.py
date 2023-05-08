@@ -7,31 +7,36 @@ from langchain.schema import (
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
 
-# Load the OpenAI API key from the environment variable
-if os.getenv("OPENAI_API_KEY") is None or os.getenv("OPENAI_API_KEY") == "":
-    print("OPENAI_API_KEY is not set")
-    exit(1)
-else:
-    print("OPENAI_API_KEY is set")
-    
+def main():
+    load_dotenv()
 
-chat = ChatOpenAI(temperature=0)
-    
-messages = [
-  SystemMessage(content="You are a helpful assistant.")
-]
+    # Load the OpenAI API key from the environment variable
+    if os.getenv("OPENAI_API_KEY") is None or os.getenv("OPENAI_API_KEY") == "":
+        print("OPENAI_API_KEY is not set")
+        exit(1)
+    else:
+        print("OPENAI_API_KEY is set")
 
-print("Hello, I am ChatGPT CLI!")
+    chat = ChatOpenAI(temperature=0)
 
-while True:
-    user_input = input("> ")
+    messages = [
+        SystemMessage(content="You are a helpful assistant.")
+    ]
 
-    messages.append(HumanMessage(content=user_input))
-    
-    assistant_response = chat(messages)
+    print("Hello, I am ChatGPT CLI!")
 
-    messages.append(AIMessage(content=assistant_response.content))
+    while True:
+        user_input = input("> ")
 
-    print("\nAssistant:\n", assistant_response.content, "\n")
+        messages.append(HumanMessage(content=user_input))
+
+        assistant_response = chat(messages)
+
+        messages.append(AIMessage(content=assistant_response.content))
+
+        print("\nAssistant:\n", assistant_response.content, "\n")
+
+
+if __name__ == '__main__':
+    main()
